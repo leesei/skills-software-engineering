@@ -1,0 +1,5 @@
+interface:
+  display_name: "Design with Docs"
+  short_description: "Decide module shapes and write DESIGN.md and ADRs"
+policy:
+  allow_implicit_invocation: false
