@@ -11,16 +11,16 @@ This is the **default** layout and the rules that keep it coherent. It is not th
 
 ## The homes
 
-| Home | Audience | Holds | Written by |
-| --- | --- | --- | --- |
-| `README.md` | everyone — end user, operator, developer | what the project is, requirements, install, the commands, an index of the rest | anyone, skeleton first |
-| `GLOSSARY.md` | everyone | the project's vocabulary: one entry per term, what it means, what it avoids | `domain-modeling` |
-| `docs/SPECS.md` | operator, developer | what was decided to build — the artifact of `/to-spec` | `/to-spec` |
-| `docs/adr/NNNN-<slug>.md` | operator, developer | a hard-to-reverse decision and why | `domain-modeling` |
-| `docs/DESIGN.md` | operator, developer | how it works: module map, interfaces, seams, data flow, limitations, references | `/design-with-docs`, filled as code lands |
-| `docs/<DEEP-DIVE>.md` | operator, developer | one protocol or subsystem walked end to end, cited to primary sources | `research` or by hand; `DESIGN.md` links it |
-| `docs/agents/*.md` | agents | the per-repo configuration the skills read: issue tracker, triage labels, domain docs, this layout | `/setup-matt-pocock-skills` |
-| `.scratch/` | agents | tickets, in-flight specs, temp files; agent-owned and disposable | `/to-tickets` and any agent |
+| Home                      | Audience                                 | Holds                                                                                              | Written by                                  |
+| ------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `README.md`               | everyone — end user, operator, developer | what the project is, requirements, install, the commands, an index of the rest                     | anyone, skeleton first                      |
+| `GLOSSARY.md`             | everyone                                 | the project's vocabulary: one entry per term, what it means, what it avoids                        | `domain-modeling`                           |
+| `docs/SPEC.md`            | operator, developer                      | what was decided to build — the artifact of `/to-spec`                                             | `/to-spec`                                  |
+| `docs/adr/NNNN-<slug>.md` | operator, developer                      | a hard-to-reverse decision and why                                                                 | `domain-modeling`                           |
+| `docs/DESIGN.md`          | operator, developer                      | how it works: module map, interfaces, seams, data flow, limitations, references                    | `/design-with-docs`, filled as code lands   |
+| `docs/<DEEP-DIVE>.md`     | operator, developer                      | one protocol or subsystem walked end to end, cited to primary sources                              | `research` or by hand; `DESIGN.md` links it |
+| `docs/agents/*.md`        | agents                                   | the per-repo configuration the skills read: issue tracker, triage labels, domain docs, this layout | `/setup-matt-pocock-skills`                 |
+| `.scratch/`               | agents                                   | tickets, in-flight specs, temp files; agent-owned and disposable                                   | `/to-tickets` and any agent                 |
 
 `docs/DESIGN.md` and the deep dives are different depths of one subject: the design document holds the module map, the shapes and the trade-offs; a deep dive holds one mechanism too long for a section, and the design document links it instead of repeating it.
 
@@ -53,7 +53,7 @@ A `DESIGN.md` skeleton carries:
 
 ## Growth
 
-- **One active effort** lives in `docs/SPECS.md`. A second concurrent effort moves to `docs/specs/<slug>.md`, and `docs/SPECS.md` becomes the index of them.
+- **One active effort** lives in `docs/SPEC.md`. A second concurrent effort moves to `docs/specs/<slug>.md`, and `docs/SPEC.md` becomes the index of them.
 - **Tickets** live at `.scratch/<feature>/issues/NN-<slug>.md`, numbered in dependency order, blockers first.
 - **Temp files** live in `.scratch/tmp/`. Anything that outlives the session graduates into `docs/`.
 - **ADRs are numbered once** and never renumbered. A reversal is a new ADR that supersedes the old one and links back to it.
@@ -62,7 +62,7 @@ A `DESIGN.md` skeleton carries:
 
 1. `grill-with-docs` — settle the idea, the vocabulary, and the decisions worth recording.
 2. `design-with-docs` — decide the modules, their interfaces and seams; write `docs/DESIGN.md` and the ADRs.
-3. `to-spec` — publish the spec to `docs/SPECS.md`.
+3. `to-spec` — publish the spec to `docs/SPEC.md`.
 4. `to-tickets` — slice the spec into `.scratch/<feature>/issues/`.
 5. `implement` per ticket; the README and design skeletons fill in as the code lands.
 6. `improve-codebase-architecture` — once code exists, survey it and fold what it finds back into the design.

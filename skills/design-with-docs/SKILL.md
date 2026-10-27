@@ -18,15 +18,11 @@ Read `GLOSSARY.md`, the ADRs that touch this area, and `docs/DESIGN.md` if it ex
 
 **Done when:** the vocabulary and the prior decisions that constrain this design are known, and any decision this design would reverse is named rather than silently overridden.
 
-### 2. Load the design vocabulary
+### 2. Grill the module shapes with the design vocabulary
 
-Call the Skill tool with `codebase-design` for the vocabulary and principles: **module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**, and the deletion test.
+Call the Skill tool with `codebase-design`, keep its terms in hand: **module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**, and the deletion test. Use them exactly — not "component", "service", or "boundary".
 
-**Done when:** the terms are in hand and will be used exactly — not "component", "service", or "boundary".
-
-### 3. Grill the module shapes
-
-Call the Skill tool with `grilling`, aimed at the design rather than the feature. For each module the effort introduces or changes, walk the same tree:
+Call the Skill tool with `grilling`, aimed at the design rather than the feature, and walk the same tree for each module the effort introduces or changes. Using the vocabulary _while_ grilling is the point: the terms are the questions, and grilling is where they get answered.
 
 - What must a caller know to use it correctly — invariants, error modes, ordering, required configuration, performance — beyond the type signature?
 - What sits behind the seam, and what does the caller stop having to know because of it?
@@ -34,6 +30,14 @@ Call the Skill tool with `grilling`, aimed at the design rather than the feature
 - Does it survive the deletion test: would deleting it concentrate the complexity, or just move it?
 
 **Done when:** every module in scope has a named interface and a named seam, and its depth claim survives the deletion test. A module whose only justification is "it might vary" is dropped.
+
+**If `codebase-design` is not installed**, the vocabulary is unavailable and this step runs on plain-language intuition instead. The shapes will still get written down, but they will not be phrased in the shared terms, and `/improve-codebase-architecture` later will re-derive the critique that `codebase-design` would have front-loaded. Install `codebase-design` before this pass if at all possible.
+
+### 3. Settle the technical stack
+
+If the stack is not already decided, interview the user before shaping modules: language and runtime, framework choices, database, queue, auth, deployment target, anything that a module's interface or seam depends on. Do not ask the user to choose from a blank list — for each category, suggest compatible concrete libraries (use `gravity_index` if the runtime exposes it; otherwise propose two or three well-known options per category and let the user pick), prefer the existing project's choice when the repo already has one, and record the choice as an ADR when it is hard to reverse (database, auth, ORM, queue — the things that cost to move later) and as `DESIGN.md` prose when it is cheap to reverse.
+
+**Done when:** every category the design depends on has a chosen stack, the choice is written where it belongs, and nothing is left silently assumed.
 
 ### 4. Explore the load-bearing interface
 
@@ -43,9 +47,11 @@ For the one or two modules the effort rests on, call `codebase-design` and run i
 
 ### 5. Write the design down
 
+For the document homes and the skeleton-first rule, see `doc-layout` — this pass writes into those homes, it does not redefine them.
+
 - **`docs/SPEC.md`** — create if missing. This is a project-wise, non-feature specific specification that captures the project's purpose, goals, constraints, core principles, architecture overview, and high-level requirements that apply across the whole project. Keep it stable and not tied to a single feature or effort.
 - **`docs/DESIGN.md`** — create the skeleton if it is missing, then fill the sections this effort touches: Context, Module map (Mermaid), Modules and interfaces, Seams and adapters, Data flow (Mermaid), Limitations, References. One section per module: its interface, what is behind the seam, and the trade-off that placed the seam there.
-- **`docs/adr/NNNN-<slug>.md`** — one ADR per decision that is hard to reverse and not obvious from the code: a seam that must not move, an interface shape a later change would break, a boundary the effort deliberately keeps. Call the Skill tool with `domain-modeling` for the ADR format. A decision that is cheap to reverse stays in `DESIGN.md` prose.
+- **`docs/adr/NNNN-<slug>.md`** — one ADR per decision that is hard to reverse and not obvious from the code: a seam that must not move, an interface shape a later change would break, a boundary the effort deliberately keeps, or a stack choice that costs to move. Call the Skill tool with `domain-modeling` for the ADR format. A decision that is cheap to reverse stays in `DESIGN.md` prose.
 - **`GLOSSARY.md`** — every domain concept this design names, with its meaning and what it avoids, added through `domain-modeling` as it crystallises.
 
 **Done when:** `docs/SPEC.md` exists with project-wise, non-feature specific content; `DESIGN.md` carries the module map and every module in scope has its interface written down; every hard-to-reverse decision has an ADR; every concept the design uses is in the glossary.
@@ -61,6 +67,7 @@ The spec's Implementation Decisions section copies the decided interfaces — mo
 - **Shapes now, code later.** This pass ends with documents; implementation belongs to `implement`.
 - **ADRs are settled ground.** When the design needs to move one, surface it and ask before writing the new ADR.
 - **The effort's scope is the design's scope.** Modules outside it stay as they are, even when they look shallow; `improve-codebase-architecture` is the skill for surveying those.
+- **The stack is part of the design.** A module's interface and seam often depend on the runtime, framework, or database. If the stack is not decided before step 1, add a stack-settling round there; do not let shaping step ahead of it silently pick one.
 
 ## When there is no code yet
 

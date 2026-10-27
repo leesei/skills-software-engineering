@@ -17,12 +17,14 @@ grill-with-docs  →  design-with-docs  →  to-spec  →  to-tickets  →  impl
    idea + terms        shapes + docs      the spec     the slices     the code
 ```
 
+Like `grill-with-docs`, `design-with-docs` works on a new or existing codebase.
+
 ## Install
 
 **skills.sh:**
 
 ```sh
-npx skills add leesei/skills-software-engineering
+npx skills add leesei/skills-software-engineering -a universal
 ```
 
 **Manual:** copy `skills/<name>/` into your agent's skills directory (`~/.agents/skills/` for the layout `mattpocock/skills` uses).
@@ -31,6 +33,14 @@ npx skills add leesei/skills-software-engineering
 
 - `doc-layout` works alongside `setup-matt-pocock-skills`; run it once per repo so the project's layout instance exists
 - `design-with-docs` calls three skills from `mattpocock/skills`: `grilling`, `codebase-design`, and `domain-modeling`
+
+## Why the design pass matters
+
+`design-with-docs` exists to stop implementation from re-deriving the same decisions every session. Its job is to run the design vocabulary (`codebase-design`) over the grilled shapes and write the result into `docs/DESIGN.md` and the ADRs _before_ any code is written. The spec and tickets that follow copy those decided interfaces, so each slice builds against a shape that was chosen deliberately.
+
+When the pass is skipped — or run without `codebase-design` loaded — implementation proceeds on intuition: modules get carved out as the code is being written, seams are placed by convenience, and the in-repo design documents stay empty or stale. The effect shows up later. Run `/improve-codebase-architecture` on that implemented code and it returns a large pile of suggestions, because the code has none of the grounding the pass would have produced: no module map, no named interfaces, no recorded seams, no ADRs saying why a boundary is where it is. Those suggestions are the cost of the decision having been made inline with the code instead of on paper first.
+
+`design-with-docs` is what converts the vocabulary into a persisted design — the document that `/improve-codebase-architecture` reads against. Without it, each session re-derives the shape and `/improve-codebase-architecture` ends up re-deriving the same critique every time it runs.
 
 ## Motivation
 
